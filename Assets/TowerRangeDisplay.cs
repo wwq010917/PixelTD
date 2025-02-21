@@ -14,7 +14,7 @@ public class TowerRangeDisplay : MonoBehaviour {
     [SerializeField] // Makes it visible in the inspector (optional)
     private bool isPlaced = false;     // Has the tower been placed?
     private bool isSelected = false;   // Is the tower selected (to show its range) after placement?
-    private bool isDragging = false;   // Is the tower currently being dragged?
+    private bool isBeingPlaced = false;   // Is the tower currently being dragged?
 
     // Reference to the tower's own SpriteRenderer.
     private SpriteRenderer towerSprite;
@@ -38,37 +38,31 @@ public class TowerRangeDisplay : MonoBehaviour {
 
     void Update() {
         rangeCircle.transform.localScale = new Vector3(range * 1, range * 1, 1);
-        if (isPlaced) {
+        
+        // Follow mouse when being placed
+        if (isBeingPlaced) {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0;
+            transform.position = mousePosition;
+            SetRangeCircleAlpha(fixedRangeAlpha);
+        } else if (isPlaced) {
             SetRangeCircleAlpha(isSelected ? fixedRangeAlpha : 0f);
         }
     }
 
     void OnMouseDown() {
         if (!isPlaced) {
-            isDragging = true;
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0;
-            offset = transform.position - mousePosition;
+            if (!isBeingPlaced) {
+                isBeingPlaced = true;
+                SetRangeCircleAlpha(fixedRangeAlpha);
+            } else {
+                isBeingPlaced = false;
+                isPlaced = true;
+                SetTowerAlpha(1f);
+                SetRangeCircleAlpha(0f);
+            }
         } else {
             isSelected = !isSelected;
-        }
-    }
-
-    void OnMouseDrag() {
-        if (!isPlaced && isDragging) {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0;
-            transform.position = mousePosition + offset;
-            SetRangeCircleAlpha(fixedRangeAlpha);
-        }
-    }
-
-    void OnMouseUp() {
-        if (!isPlaced && isDragging) {
-            isDragging = false;
-            isPlaced = true;
-            SetTowerAlpha(1f);
-            SetRangeCircleAlpha(0f);
         }
     }
 
