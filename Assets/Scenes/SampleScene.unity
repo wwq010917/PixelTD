@@ -9420,7 +9420,7 @@ MonoBehaviour:
   currentExp: 0
   currentLevel: 1
   damageUpgradeAmount: 0.25
-  spawnSpeedIncrease: 0.05
+  spawnSpeedIncrease: 0.035
   upgradePanel: {fileID: 25273273}
   gameOverPanel: {fileID: 1347205043}
   killCountText: {fileID: 27327955}

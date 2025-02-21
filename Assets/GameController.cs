@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using TMPro; /
+using TMPro;
 
 public class GameController : MonoBehaviour 
 {
@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     
     [Header("Upgrade Settings")]
     public float damageUpgradeAmount = 0.25f;  
-    public float spawnSpeedIncrease = 0.05f; 
+    public float spawnSpeedIncrease = 0.035f; 
     
     [Header("UI References")]
     public UpgradePanel upgradePanel;
@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
     public TMP_Text killCountText;  
 
     [Header("Restart Button")]
-    public Button restartButton; /
+    public Button restartButton;
 
     private List<float> expThresholds = new List<float>();
     private float nextLevelExp;
@@ -82,7 +82,7 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < 20; i++)
         {
             expThresholds.Add(b);
-            float temp = a + b;
+            float temp = a/2 + b;
             a = b;
             b = temp;
         }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour 
 {
-    public float health = 50f;
+    public float health = 20f;
     
     private GameController gameController;
     
